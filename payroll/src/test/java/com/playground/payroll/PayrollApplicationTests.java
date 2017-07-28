@@ -1,4 +1,4 @@
-package com.vosloo.playground.payroll;
+package com.playground.payroll;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

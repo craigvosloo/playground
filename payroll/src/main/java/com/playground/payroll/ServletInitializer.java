@@ -1,4 +1,4 @@
-package com.vosloo.playground.payroll;
+package com.playground.payroll;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
