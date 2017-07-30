@@ -1,5 +1,8 @@
 package com.playground.payroll.service.tax;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +28,9 @@ public class TaxServiceImpl implements TaxService {
 	 * @param Integer the salary value
 	 * @return Integer the annual tax amount
 	 */
-	private Double calculateAnnualTax(Integer salary) {
+	private BigDecimal calculateAnnualTax(BigDecimal salary) {
 		Tax tax = taxRepository.findFirstBySalaryFromLessThanEqualOrderBySalaryFromDesc(salary);
-		Double annualTax = new Double(tax.getBaseSalaryTax());
-		annualTax = annualTax + ((salary - tax.getBaseSalary()) * (new Double(tax.getAdditionalRate()) / 100));
+		BigDecimal annualTax = tax.getBaseSalaryTax().add(salary.subtract(tax.getBaseSalary()).multiply(tax.getAdditionalRate().divide(new BigDecimal(100))));
 		return annualTax;		
 	}
 	
@@ -38,7 +40,7 @@ public class TaxServiceImpl implements TaxService {
 	 * @return Integer the monthly tax amount
 	 */
 	@Override
-	public Integer calculateMonthlyTax(Integer salary) {
-		return new Long(Math.round(calculateAnnualTax(salary) / 12)).intValue();
+	public BigDecimal calculateMonthlyTax(BigDecimal salary) {
+		return calculateAnnualTax(salary).divide(new BigDecimal(12), 2, RoundingMode.HALF_UP);
 	}
 }

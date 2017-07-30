@@ -1,5 +1,7 @@
 package com.playground.payroll.repository;
 
+import java.math.BigDecimal;
+
 import org.springframework.data.repository.CrudRepository;
 
 import com.playground.payroll.domain.Employee;
@@ -14,5 +16,5 @@ import com.playground.payroll.domain.Tax;
  */
 public interface TaxRepository extends CrudRepository<Tax, Long> {
 
-	public Tax findFirstBySalaryFromLessThanEqualOrderBySalaryFromDesc(Integer salary);	
+	public Tax findFirstBySalaryFromLessThanEqualOrderBySalaryFromDesc(BigDecimal salary);	
 }

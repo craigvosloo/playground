@@ -1,5 +1,7 @@
 package com.playground.payroll.service.tax;
 
+import java.math.BigDecimal;
+
 import org.springframework.validation.annotation.Validated;
 
 /**
@@ -14,6 +16,6 @@ import org.springframework.validation.annotation.Validated;
 public interface TaxService {
 	
 	/**@see TaxServiceImpl#calculateMonthlyTax(Integer) */
-	public Integer calculateMonthlyTax(Integer salary);
+	public BigDecimal calculateMonthlyTax(BigDecimal salary);
 
 }

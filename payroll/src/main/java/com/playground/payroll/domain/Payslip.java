@@ -1,5 +1,6 @@
 package com.playground.payroll.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -26,16 +27,19 @@ public class Payslip {
 	private Date payslipDate;
 	
 	@Column(nullable = false)
-	private Integer grossIncome;
+	private BigDecimal grossIncome;
 	
 	@Column(nullable = false)
-	private Integer incomeTax;
+	private BigDecimal incomeTax;
 	
 	@Column(nullable = false)
-	private Integer netIncome;
+	private BigDecimal netIncome;
 	
 	@Column(nullable = false)
-	private Integer pensionContribution;
+	private BigDecimal pensionContribution;
+	
+	@Column(nullable = false)
+	private Boolean prorated;
 	
 	@ManyToOne
 	@JoinColumn(name="employee_id", nullable = false)
@@ -59,36 +63,44 @@ public class Payslip {
 		this.payslipDate = payslipDate;
 	}
 
-	public Integer getGrossIncome() {
+	public BigDecimal getGrossIncome() {
 		return grossIncome;
 	}
 
-	public void setGrossIncome(Integer grossIncome) {
+	public void setGrossIncome(BigDecimal grossIncome) {
 		this.grossIncome = grossIncome;
 	}
 
-	public Integer getIncomeTax() {
+	public BigDecimal getIncomeTax() {
 		return incomeTax;
 	}
 
-	public void setIncomeTax(Integer incomeTax) {
+	public void setIncomeTax(BigDecimal incomeTax) {
 		this.incomeTax = incomeTax;
 	}
 
-	public Integer getNetIncome() {
+	public BigDecimal getNetIncome() {
 		return netIncome;
 	}
 
-	public void setNetIncome(Integer netIncome) {
+	public void setNetIncome(BigDecimal netIncome) {
 		this.netIncome = netIncome;
 	}
 
-	public Integer getPensionContribution() {
+	public BigDecimal getPensionContribution() {
 		return pensionContribution;
 	}
 
-	public void setPensionContribution(Integer pensionContribution) {
+	public void setPensionContribution(BigDecimal pensionContribution) {
 		this.pensionContribution = pensionContribution;
+	}
+
+	public Boolean getProrated() {
+		return prorated;
+	}
+
+	public void setProrated(Boolean prorated) {
+		this.prorated = prorated;
 	}
 
 	public Employee getEmployee() {

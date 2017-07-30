@@ -1,5 +1,7 @@
 package com.playground.payroll.domain;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,16 +21,16 @@ public class Tax {
     private Long id;
 	
 	@Column(nullable = false)
-	private Integer salaryFrom;
+	private BigDecimal salaryFrom;
 	
 	@Column(nullable = false)
-	private Integer baseSalary;
+	private BigDecimal baseSalary;
 	
 	@Column(nullable = false)
-	private Integer baseSalaryTax;
+	private BigDecimal baseSalaryTax;
 	
 	@Column(nullable = false)
-	private Double additionalRate;
+	private BigDecimal additionalRate;
 	
 	protected Tax() {}
 
@@ -40,35 +42,35 @@ public class Tax {
 		this.id = id;
 	}
 
-	public Integer getSalaryFrom() {
+	public BigDecimal getSalaryFrom() {
 		return salaryFrom;
 	}
 
-	public void setSalaryFrom(Integer salaryFrom) {
+	public void setSalaryFrom(BigDecimal salaryFrom) {
 		this.salaryFrom = salaryFrom;
 	}
 
-	public Integer getBaseSalary() {
+	public BigDecimal getBaseSalary() {
 		return baseSalary;
 	}
 
-	public void setBaseSalary(Integer baseSalary) {
+	public void setBaseSalary(BigDecimal baseSalary) {
 		this.baseSalary = baseSalary;
 	}
 
-	public Integer getBaseSalaryTax() {
+	public BigDecimal getBaseSalaryTax() {
 		return baseSalaryTax;
 	}
 
-	public void setBaseSalaryTax(Integer baseSalaryTax) {
+	public void setBaseSalaryTax(BigDecimal baseSalaryTax) {
 		this.baseSalaryTax = baseSalaryTax;
 	}
 
-	public Double getAdditionalRate() {
+	public BigDecimal getAdditionalRate() {
 		return additionalRate;
 	}
 
-	public void setAdditionalRate(Double additionalRate) {
+	public void setAdditionalRate(BigDecimal additionalRate) {
 		this.additionalRate = additionalRate;
 	}
 

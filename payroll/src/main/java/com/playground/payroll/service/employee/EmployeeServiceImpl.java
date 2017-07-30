@@ -3,14 +3,18 @@ package com.playground.payroll.service.employee;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.playground.payroll.domain.Employee;
 import com.playground.payroll.repository.EmployeeRepository;
 import com.playground.payroll.service.employee.dto.EmployeeDTO;
+import com.playground.payroll.util.exception.NotFoundException;
 
 /**
  * Service used for all methods regarding employees
@@ -28,6 +32,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Autowired
 	private Mapper mapper;
+	
+	@Autowired
+	private MessageSource messageSource;
+	
+	private Locale currentLocale = LocaleContextHolder.getLocale();
 
 	/**
 	 * Method to retrieve a list of all employees
@@ -47,6 +56,28 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		
 		return employeeDTOList;
+	}
+	
+	/**
+	 * Method to save an employee
+	 * @param EmployeeDTO the employee to save
+	 * @return EmployeeDTO the saved employee
+	 * @see EmployeeDTO
+	 */
+	@Override
+	public EmployeeDTO saveEmployee(EmployeeDTO employeeDTO) {
+		Employee employee = null;
+		if (employeeDTO.getId() != null && employeeDTO.getId() != 0l) {
+			employee = employeeRepositiory.findOne(employeeDTO.getId());
+			if (employee == null) {
+				String message = messageSource.getMessage("error.id.notfound", new Object[] { "Employee", employeeDTO.getId() }, currentLocale);
+				throw new NotFoundException(message);
+			}
+			mapper.map(employeeDTO, employee);
+		} else {
+			employee = mapper.map(employeeDTO, Employee.class);
+		}
+		return mapper.map(employeeRepositiory.save(employee), EmployeeDTO.class);
 	}
 
 }

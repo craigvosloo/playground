@@ -1,8 +1,12 @@
 package com.playground.payroll.service.employee.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 import com.playground.payroll.service.payslip.dto.PayslipDTO;
 
@@ -16,12 +20,24 @@ public class EmployeeDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;	
+	private Long id;
+	
+	@NotNull(message = "error.employee.firstname.notnull")
 	private String firstName;
+	
+	@NotNull(message = "error.employee.lastname.notnull")
 	private String lastName;
-	private Integer annualSalary;
-	private Integer pensionContribution;	
-	private Date paymentStartDate;
+	
+	@NotNull(message = "error.employee.annualsalary.notnull")
+	@DecimalMin("1.00")
+	private BigDecimal annualSalary;
+	
+	@NotNull(message = "error.employee.pensioncontribution.notnull")
+	@DecimalMin("1.00")
+	private BigDecimal pensionContribution;
+	
+	@NotNull(message = "error.employee.startdate.notnull")
+	private Date startDate;
 	
 	private List<PayslipDTO> payslips;
 	
@@ -43,23 +59,23 @@ public class EmployeeDTO implements Serializable {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public Integer getAnnualSalary() {
+	public BigDecimal getAnnualSalary() {
 		return annualSalary;
 	}
-	public void setAnnualSalary(Integer annualSalary) {
+	public void setAnnualSalary(BigDecimal annualSalary) {
 		this.annualSalary = annualSalary;
 	}
-	public Integer getPensionContribution() {
+	public BigDecimal getPensionContribution() {
 		return pensionContribution;
 	}
-	public void setPensionContribution(Integer pensionContribution) {
+	public void setPensionContribution(BigDecimal pensionContribution) {
 		this.pensionContribution = pensionContribution;
 	}
-	public Date getPaymentStartDate() {
-		return paymentStartDate;
+	public Date getStartDate() {
+		return startDate;
 	}
-	public void setPaymentStartDate(Date paymentStartDate) {
-		this.paymentStartDate = paymentStartDate;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
 	public List<PayslipDTO> getPayslips() {
 		return payslips;

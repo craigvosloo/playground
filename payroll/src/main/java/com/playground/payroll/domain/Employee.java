@@ -1,5 +1,6 @@
 package com.playground.payroll.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -33,13 +34,13 @@ public class Employee {
 	private String lastName;
 	
 	@Column(nullable = false)
-	private Integer annualSalary;
+	private BigDecimal annualSalary;
 	
 	@Column(nullable = false)
-	private Integer pensionContribution;
+	private BigDecimal pensionContribution;
 	
 	@Column(nullable = false)
-	private Date paymentStartDate;
+	private Date startDate;
 	
 	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval=true)
     @OrderBy(clause = "payslipDate")
@@ -71,28 +72,28 @@ public class Employee {
 		this.lastName = lastName;
 	}
 
-	public Integer getAnnualSalary() {
+	public BigDecimal getAnnualSalary() {
 		return annualSalary;
 	}
 
-	public void setAnnualSalary(Integer annualSalary) {
+	public void setAnnualSalary(BigDecimal annualSalary) {
 		this.annualSalary = annualSalary;
 	}
 
-	public Integer getPensionContribution() {
+	public BigDecimal getPensionContribution() {
 		return pensionContribution;
 	}
 
-	public void setPensionContribution(Integer pensionContribution) {
+	public void setPensionContribution(BigDecimal pensionContribution) {
 		this.pensionContribution = pensionContribution;
 	}
 
-	public Date getPaymentStartDate() {
-		return paymentStartDate;
+	public Date getStartDate() {
+		return startDate;
 	}
 
-	public void setPaymentStartDate(Date paymentStartDate) {
-		this.paymentStartDate = paymentStartDate;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
 
 	public List<Payslip> getPayslips() {

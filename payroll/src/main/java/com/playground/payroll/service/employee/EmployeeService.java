@@ -19,5 +19,8 @@ public interface EmployeeService {
 	
 	/**@see EmployeeServiceImpl#findAll() */
 	public List<EmployeeDTO> findAll();
+	
+	/**@see EmployeeServiceImpl#saveEmployee(EmployeeDTO) */
+	public EmployeeDTO saveEmployee(EmployeeDTO employeeDTO);
 
 }

@@ -35,7 +35,7 @@ public class PayslipController {
 	 /**
      * @see EmployeeService#findAll
      */
-    @RequestMapping(value = "/", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
     public HttpEntity<PayslipDTO> generatePayslip(@Valid @RequestBody PayslipRequestDTO payslipRequest) {  
 	
     	return new ResponseEntity<PayslipDTO>(payslipService.generatePayslip(payslipRequest.getEmployeeId(), payslipRequest.getPayslipDate()), HttpStatus.OK);    	

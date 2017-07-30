@@ -1,5 +1,8 @@
 package com.playground.payroll.service.payslip;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.dozer.Mapper;
@@ -43,16 +46,41 @@ public class PayslipServiceImpl implements PayslipService {
 		Employee employee = employeeRepository.findOne(employeeId);
 		payslip.setEmployee(employee);
 		
-		Double annualSalary = new Double(employee.getAnnualSalary());
-		Double grossSalary = new Double(Math.round(annualSalary / 12));
-		payslip.setGrossIncome(grossSalary.intValue());
+		//Determine if payslip is for Employee's start month
+		Calendar startDateCalendar = Calendar.getInstance();
+	    startDateCalendar.setTime(employee.getStartDate());
+	    
+	    Calendar payslipDateCalendar = Calendar.getInstance();
+	    payslipDateCalendar.setTime(payslipDate);
+	    
+	    BigDecimal proRatedPercentage = new BigDecimal(1);
+	    Boolean prorated = false;
+	    
+		if (startDateCalendar.get(Calendar.YEAR) == payslipDateCalendar.get(Calendar.YEAR) && startDateCalendar.get(Calendar.MONTH) == payslipDateCalendar.get(Calendar.MONTH)) {
+			BigDecimal numDaysInMonth = new BigDecimal(startDateCalendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+			
+			BigDecimal numDaysWorking = numDaysInMonth.subtract(new BigDecimal(startDateCalendar.get(Calendar.DAY_OF_MONTH))).add(new BigDecimal(1));
+			
+			proRatedPercentage = numDaysWorking.divide(numDaysInMonth, 2, RoundingMode.HALF_UP);
+			
+			if (proRatedPercentage.compareTo(new BigDecimal(1)) != 0) {
+				prorated = true;
+			}
+			
+		}
 		
-		Integer incomeTax = taxService.calculateMonthlyTax(employee.getAnnualSalary());		
+		payslip.setProrated(prorated);
+		
+		BigDecimal annualSalary = employee.getAnnualSalary();
+		BigDecimal grossSalary = annualSalary.divide(new BigDecimal(12), 0, RoundingMode.HALF_UP).multiply(proRatedPercentage);
+		payslip.setGrossIncome(grossSalary);
+		
+		BigDecimal incomeTax = taxService.calculateMonthlyTax(employee.getAnnualSalary()).multiply(proRatedPercentage);		
 		payslip.setIncomeTax(incomeTax);		
-		payslip.setNetIncome(grossSalary.intValue() - incomeTax);
+		payslip.setNetIncome(grossSalary.subtract(incomeTax));
 		
-		Double pensionContribution = grossSalary * (new Double(employee.getPensionContribution()) / 100);		
-		payslip.setPensionContribution(pensionContribution.intValue());
+		BigDecimal pensionContribution = grossSalary.multiply(employee.getPensionContribution().divide(new BigDecimal(100)));
+		payslip.setPensionContribution(pensionContribution);
 		
 		payslip.setPayslipDate(payslipDate);
 		
