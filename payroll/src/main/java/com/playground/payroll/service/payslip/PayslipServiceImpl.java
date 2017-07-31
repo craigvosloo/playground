@@ -1,10 +1,11 @@
+
 package com.playground.payroll.service.payslip;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -53,11 +54,10 @@ public class PayslipServiceImpl implements PayslipService {
 	private MessageSource messageSource;
 	
 	private Locale currentLocale = LocaleContextHolder.getLocale();
-	private SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy");
 
 	/**
 	 * Method to generate a payslip for an employee for a payment period
-	 * @param PayslipRequestDTO payslipRequestDTO the request DTO
+	 * @param payslipRequestDTO the request DTO
 	 * @return PayslipDTO the generated payslip
 	 * @see EmployeeDTO
 	 */
@@ -70,28 +70,19 @@ public class PayslipServiceImpl implements PayslipService {
 			String message = messageSource.getMessage("error.id.notfound", new Object[] { "Employee", payslipRequestDTO.getEmployeeId() }, currentLocale);
 			throw new NotFoundException(message);
 		}
-		
-		//Determine if payslip is for Employee's start month
-		Calendar startDateCalendar = Calendar.getInstance();
-	    startDateCalendar.setTime(employee.getStartDate());
-	    
-	    Calendar payslipDateCalendar = Calendar.getInstance();
-	    payslipDateCalendar.setTime(payslipRequestDTO.getPayslipDate());
 	    
 	    BigDecimal proRatedPercentage = new BigDecimal(1);
 	    Boolean prorated = false;
 	    
-		if (startDateCalendar.get(Calendar.YEAR) == payslipDateCalendar.get(Calendar.YEAR) && startDateCalendar.get(Calendar.MONTH) == payslipDateCalendar.get(Calendar.MONTH)) {
-			BigDecimal numDaysInMonth = new BigDecimal(startDateCalendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+		if (employee.getStartDate().getYear() == payslipRequestDTO.getPayslipDate().getYear() && employee.getStartDate().getMonth() == payslipRequestDTO.getPayslipDate().getMonth()) {
 			
-			BigDecimal numDaysWorking = numDaysInMonth.subtract(new BigDecimal(startDateCalendar.get(Calendar.DAY_OF_MONTH))).add(new BigDecimal(1));
+			BigDecimal daysWorking = new BigDecimal(ChronoUnit.DAYS.between(employee.getStartDate(), payslipRequestDTO.getPayslipDate().withDayOfMonth(payslipRequestDTO.getPayslipDate().lengthOfMonth())) + 1);
 			
-			proRatedPercentage = numDaysWorking.divide(numDaysInMonth, 2, RoundingMode.HALF_UP);
+			proRatedPercentage = daysWorking.divide(new BigDecimal(employee.getStartDate().lengthOfMonth()), 2, RoundingMode.HALF_UP);
 			
 			if (proRatedPercentage.compareTo(new BigDecimal(1)) != 0) {
 				prorated = true;
 			}
-			
 		}
 		
 		payslip.setProrated(prorated);
@@ -108,7 +99,6 @@ public class PayslipServiceImpl implements PayslipService {
 		payslip.setPensionContribution(pensionContribution);
 		
 		payslip.setPayslipDate(payslipRequestDTO.getPayslipDate());
-		payslip.setPayslipDisplayDate(sdf.format(payslipRequestDTO.getPayslipDate()));		
 		
 		return payslip;
 	}
@@ -116,13 +106,17 @@ public class PayslipServiceImpl implements PayslipService {
 	@Override
 	public PayslipDTO savePayslip(Long employeeId, PayslipDTO payslipDTO) {
 		Payslip payslip = mapper.map(payslipDTO, Payslip.class);
+		payslip.setPayslipDate(payslipDTO.getPayslipDate());
 		Employee employee = employeeRepository.findOne(employeeId);
 		if (employee == null) {
 			String message = messageSource.getMessage("error.id.notfound", new Object[] { "Employee", employeeId }, currentLocale);
 			throw new NotFoundException(message);
 		}
 		payslip.setEmployee(employee);
-		return mapper.map(payslipRepository.save(payslip), PayslipDTO.class);
+		payslip = payslipRepository.save(payslip);
+		payslipDTO =  mapper.map(payslip, PayslipDTO.class);
+		payslipDTO.setPayslipDate(payslip.getPayslipDate());
+		return payslipDTO;
 	}
 	
 	/**
@@ -146,8 +140,9 @@ public class PayslipServiceImpl implements PayslipService {
 		Iterator<Payslip> payslipIterator = payslipList.iterator();
 		
 		while (payslipIterator.hasNext()) {
-			PayslipDTO payslipDTO = mapper.map(payslipIterator.next(), PayslipDTO.class);
-			payslipDTO.setPayslipDisplayDate(sdf.format(payslipDTO.getPayslipDate()));
+			Payslip payslip = payslipIterator.next();
+			PayslipDTO payslipDTO = mapper.map(payslip, PayslipDTO.class);
+			payslipDTO.setPayslipDate(payslip.getPayslipDate());
 			payslipDTOList.add(payslipDTO);
 		}
 		
@@ -170,35 +165,21 @@ public class PayslipServiceImpl implements PayslipService {
 			throw new NotFoundException(message);
 		}
 		
-		Calendar startDate = Calendar.getInstance();
-		startDate.setTime(employee.getStartDate());
-		startDate.set(Calendar.DAY_OF_MONTH,1);
-		if (employee.getPayslips() != null && employee.getPayslips().size() > 0) {
-			Iterator<Payslip> payslipIterator = employee.getPayslips().iterator();
-			while (payslipIterator.hasNext()) {
-				Payslip payslip = payslipIterator.next();
-				if (payslip.getPayslipDate().after(startDate.getTime())) {
-					startDate.setTime(payslip.getPayslipDate());
-				}
-			}
-			startDate.add(Calendar.MONTH, 1);
-		}
+		LocalDate startDate = employee.getStartDate();
+		startDate = startDate.withDayOfMonth(1);
+		LocalDate endDate = LocalDate.of(2017, 2, 1);
 		
-		Calendar endDate = Calendar.getInstance();
-		endDate.set(2017, 2, 1, 0, 0, 0);
-		
-		int m1 = startDate.get(Calendar.YEAR) * 12 + startDate.get(Calendar.MONTH);
-	    int m2 = endDate.get(Calendar.YEAR) * 12 + endDate.get(Calendar.MONTH);
+		Long monthsBetween = ChronoUnit.MONTHS.between(startDate, endDate);
 	    
-	    Calendar payslipPeriodDate = startDate;
+	    LocalDate payslipPeriodDate = startDate;
 
-	    for (int i = 1; i < (m2 - m1 + 1); i++) {
+	    for (int i = 1; i <= (monthsBetween + 1); i++) {
 	    	PayslipPeriodDTO payslipPeriodDTO = new PayslipPeriodDTO();
-	    	payslipPeriodDTO.setPayslipPeriodDate(payslipPeriodDate.getTime());
-	    	payslipPeriodDTO.setDisplayValue(sdf.format(payslipPeriodDate.getTime()));
+	    	payslipPeriodDTO.setPayslipPeriodDate(payslipPeriodDate);
 	    	payslipPeriodDTOList.add(payslipPeriodDTO);
-	    	payslipPeriodDate.add(Calendar.MONTH, 1);	    	
-	    }		
+	    	payslipPeriodDate = payslipPeriodDate.plusMonths(1);
+	    }
+	    
 		return payslipPeriodDTOList;
 	}
 

@@ -51,7 +51,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Iterator<Employee> employeeIterator = employeeList.iterator();
 		
 		while (employeeIterator.hasNext()) {
-			EmployeeDTO employeeDTO = mapper.map(employeeIterator.next(),EmployeeDTO.class);
+			Employee employee = employeeIterator.next();
+			EmployeeDTO employeeDTO = mapper.map(employee,EmployeeDTO.class);
+			employeeDTO.setStartDate(employee.getStartDate());
 			employeeDTOList.add(employeeDTO);
 		}
 		
@@ -66,14 +68,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public EmployeeDTO findOne(Long id) {
+		EmployeeDTO employeeDTO = null;
 		Employee employee = employeeRepositiory.findOne(id);
 		
 		if (employee == null) {
 			String message = messageSource.getMessage("error.id.notfound", new Object[] { "Employee", id }, currentLocale);
 			throw new NotFoundException(message);
 		}
-		
-		return mapper.map(employee, EmployeeDTO.class);
+		employeeDTO = mapper.map(employee, EmployeeDTO.class);
+		employeeDTO.setStartDate(employee.getStartDate());
+		return employeeDTO;
 	}
 	
 	/**
@@ -95,7 +99,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		} else {
 			employee = mapper.map(employeeDTO, Employee.class);
 		}
-		return mapper.map(employeeRepositiory.save(employee), EmployeeDTO.class);
+		employee.setStartDate(employeeDTO.getStartDate());
+		employee = employeeRepositiory.save(employee);
+		employeeDTO = mapper.map(employee, EmployeeDTO.class);
+		employeeDTO.setStartDate(employee.getStartDate());
+		return employeeDTO;
 	}
 
 }

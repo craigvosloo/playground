@@ -1,7 +1,7 @@
 package com.playground.payroll.domain;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +24,7 @@ public class Payslip {
     private Long id;
 	
 	@Column(nullable = false)
-	private Date payslipDate;
+	private LocalDate payslipDate;
 	
 	@Column(nullable = false)
 	private BigDecimal grossIncome;
@@ -55,11 +55,11 @@ public class Payslip {
 		this.id = id;
 	}
 
-	public Date getPayslipDate() {
+	public LocalDate getPayslipDate() {
 		return payslipDate;
 	}
 
-	public void setPayslipDate(Date payslipDate) {
+	public void setPayslipDate(LocalDate payslipDate) {
 		this.payslipDate = payslipDate;
 	}
 

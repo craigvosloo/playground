@@ -2,8 +2,6 @@ spring:
   jpa:
     hibernate: 
       ddl-auto: create-drop
-  jackson:
-    date-format: yyyy-MM-dd
 
 security:
   basic:

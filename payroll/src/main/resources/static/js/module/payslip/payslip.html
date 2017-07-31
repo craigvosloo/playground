@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="container-fluid">
 			<h2 class="well-header">
-				Generate Payslip		
+				Generate Payslip for {{employee.firstName}} {{employee.lastName}}
 			</h2>
 			<hr />
 			<div class="row fadein fadeout">
@@ -13,7 +13,7 @@
 					    		<label for="payslipPeriod" class="col-sm-6 col-md-6 control-label">Payslip Period</label>
 					        	<div class="col-sm-6 col-md-6">			      
 									<select name="payslipPeriod" id="payslipPeriod" class="form-control input input-sm" ng-required="true"
-				                              ng-options="payslipPeriod as payslipPeriod.displayValue for payslipPeriod in payslipPeriods | orderBy: 'payslipPeriodDate' track by payslipPeriod.payslipPeriodDate" ng-model="payslipPeriod">
+				                              ng-options="payslipPeriod as payslipPeriod.displayValue for payslipPeriod in payslipPeriods" ng-model="payslipPeriod">
 				  				    </select>  
 					        	</div>
 							</div>
@@ -32,7 +32,7 @@
 							<div class="form-group">
 				            	<label for="id" class="col-sm-3 col-md-3 control-label">Payslip Date</label>
 				                <div class="col-sm-9 col-md-9">
-				                  <input type="text" readonly class="form-control input input-sm" id="id" ng-model="payslip.payslipDate"/>
+				                  <input type="text" readonly class="form-control input input-sm" id="id" ng-model="payslip.payslipDisplayDate"/>
 				                </div>
 				        	</div>
 			        	</div>
@@ -40,7 +40,7 @@
 							<div class="form-group">
 				            	<label for="id" class="col-sm-3 col-md-3 control-label">Gross Income</label>
 				                <div class="col-sm-9 col-md-9">
-				                  <input type="text" readonly class="form-control input input-sm" id="grossIncome" ng-model="payslip.grossIncome" format="number"/>
+				                  <input type="text" readonly class="form-control input input-sm" id="grossIncome" ng-model="payslip.grossIncomeFormatted"/>
 				                </div>
 				        	</div>
 			        	</div>
@@ -48,7 +48,7 @@
 							<div class="form-group">
 				            	<label for="id" class="col-sm-3 col-md-3 control-label">Income Tax</label>
 				                <div class="col-sm-9 col-md-9">
-				                  <input type="text" readonly class="form-control input input-sm" id="incomeTax" ng-model="payslip.incomeTax" format="number"/>
+				                  <input type="text" readonly class="form-control input input-sm" id="incomeTax" ng-model="payslip.incomeTaxFormatted"/>
 				                </div>
 				        	</div>
 			        	</div>
@@ -56,7 +56,7 @@
 							<div class="form-group">
 				            	<label for="id" class="col-sm-3 col-md-3 control-label">Net Income</label>
 				                <div class="col-sm-9 col-md-9">
-				                  <input type="text" readonly class="form-control input input-sm" id="netIncome" ng-model="payslip.netIncome" format="number"/>
+				                  <input type="text" readonly class="form-control input input-sm" id="netIncome" ng-model="payslip.netIncomeFormatted"/>
 				                </div>
 				        	</div>
 			        	</div>
@@ -64,7 +64,7 @@
 							<div class="form-group">
 				            	<label for="id" class="col-sm-3 col-md-3 control-label">Pension Contribution</label>
 				                <div class="col-sm-9 col-md-9">
-				                  <input type="text" readonly class="form-control input input-sm" id="pensionContribution" ng-model="payslip.pensionContribution" format="number"/>
+				                  <input type="text" readonly class="form-control input input-sm" id="pensionContribution" ng-model="payslip.pensionContributionFormatted"/>
 				                </div>
 				        	</div>
 			        	</div>

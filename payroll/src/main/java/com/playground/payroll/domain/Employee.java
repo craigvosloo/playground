@@ -1,7 +1,7 @@
 package com.playground.payroll.domain;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -40,7 +40,7 @@ public class Employee {
 	private BigDecimal pensionContribution;
 	
 	@Column(nullable = false)
-	private Date startDate;
+	private LocalDate startDate;
 	
 	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval=true)
     @OrderBy(clause = "payslipDate")
@@ -88,11 +88,11 @@ public class Employee {
 		this.pensionContribution = pensionContribution;
 	}
 
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 

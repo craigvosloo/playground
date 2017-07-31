@@ -2,9 +2,15 @@ package com.playground.payroll.service.employee.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 /**
  * DTO containing an employee.
@@ -15,6 +21,8 @@ import javax.validation.constraints.NotNull;
 public class EmployeeDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
+
+	private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
 	private Long id;
 	
@@ -30,8 +38,12 @@ public class EmployeeDTO implements Serializable {
 	@NotNull(message = "error.employee.pensioncontribution.notnull")
 	private BigDecimal pensionContribution;
 	
+	@JsonDeserialize(using = LocalDateDeserializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
 	@NotNull(message = "error.employee.startdate.notnull")
-	private Date startDate;
+	private LocalDate startDate;
+	
+	private String displayDate;
 	
 	public Long getId() {
 		return id;
@@ -63,10 +75,14 @@ public class EmployeeDTO implements Serializable {
 	public void setPensionContribution(BigDecimal pensionContribution) {
 		this.pensionContribution = pensionContribution;
 	}
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
+		this.displayDate = startDate.format(dtf);
+	}
+	public String getDisplayDate() {
+		return displayDate;
 	}
 }

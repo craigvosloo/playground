@@ -1,9 +1,14 @@
 package com.playground.payroll.service.payslip.dto;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 /**
  * DTO used to request the generation of a pyalips for an employee.
@@ -17,8 +22,11 @@ public class PayslipRequestDTO implements Serializable {
 	
 	@NotNull
 	private Long employeeId;
+	
+	@JsonDeserialize(using = LocalDateDeserializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
 	@NotNull
-	private Date payslipDate;
+	private LocalDate payslipDate;
 	
 	public Long getEmployeeId() {
 		return employeeId;
@@ -26,10 +34,10 @@ public class PayslipRequestDTO implements Serializable {
 	public void setEmployeeId(Long employeeId) {
 		this.employeeId = employeeId;
 	}
-	public Date getPayslipDate() {
+	public LocalDate getPayslipDate() {
 		return payslipDate;
 	}
-	public void setPayslipDate(Date payslipDate) {
+	public void setPayslipDate(LocalDate payslipDate) {
 		this.payslipDate = payslipDate;
 	}   	
 

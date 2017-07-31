@@ -25,7 +25,7 @@ public class PayrollApplication {
 	  messageBundle.setDefaultEncoding("UTF-8");
 	  return messageBundle;
 	}
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(PayrollApplication.class, args);
 	}

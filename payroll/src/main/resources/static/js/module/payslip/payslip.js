@@ -18,11 +18,26 @@ angular.module('payslipModule', ['ngRoute'])
 	});
 })
 
-.controller('payslipsController',function($resource, $timeout, $scope, payslipService, notificationService, ngTableParams, $filter, $uibModal, $log, $location, $routeParams) {
+.controller('payslipsController',function($resource, $timeout, $scope, employeeService, payslipService, notificationService, ngTableParams, $filter, $uibModal, $log, $location, $routeParams) {
 	$scope.pageClass = 'page-main';	
 	
 	$scope.payslips;
 	$scope.employeeId = $routeParams.employeeId;
+	$scope.employee;
+	
+	function getEmployee(id) {
+		employeeService.getEmployee(id).then(function(data) {
+			if (data != null) {
+				$scope.employee = data;
+			} else {
+				$scope.employee = null;
+				notificationService.showError('Employee not found.');
+			}
+		}, function(error) {
+			$scope.employee = null;
+			notificationService.showError(error);
+		});
+	}
 	
 	function getPayslips(employeeId) {
 		payslipService.getPayslipsByEmployee(employeeId).then(function(data) {
@@ -40,6 +55,7 @@ angular.module('payslipModule', ['ngRoute'])
 	}
 	
     getPayslips($scope.employeeId);
+    getEmployee($scope.employeeId);
 	
 	/* Payslips Table
 	 ****************/
@@ -103,7 +119,7 @@ angular.module('payslipModule', ['ngRoute'])
 		
 })
 
-.controller('payslipController',function($resource, $timeout, $scope, payslipService, notificationService, ngTableParams, $filter, $routeParams, $location, $uibModal, $log) {
+.controller('payslipController',function($resource, $timeout, $scope, employeeService, payslipService, notificationService, ngTableParams, $filter, $routeParams, $location, $uibModal, $log) {
 	$scope.pageClass = 'page-sub';	
 	
 	/* Initialise
@@ -113,6 +129,7 @@ angular.module('payslipModule', ['ngRoute'])
 	$scope.employeeId = $routeParams.employeeId;
 	$scope.payslip;
 	$scope.payslipPeriod;
+	$scope.employee;
 
 	function getPayslipPeriods(employeeId) {
 		payslipService.getPayslipPeriodsForEmployee(employeeId).then(function(data) {
@@ -127,8 +144,23 @@ angular.module('payslipModule', ['ngRoute'])
 			notificationService.showError(error);
 		});
 	}
+	
+	function getEmployee(id) {
+		employeeService.getEmployee(id).then(function(data) {
+			if (data != null) {
+				$scope.employee = data;
+			} else {
+				$scope.employee = null;
+				notificationService.showError('Employee not found.');
+			}
+		}, function(error) {
+			$scope.employee = null;
+			notificationService.showError(error);
+		});
+	}
 
     getPayslipPeriods($scope.employeeId);
+    getEmployee($scope.employeeId);
     
 	function generatePayslip(payslipPeriod) {
 		
@@ -171,25 +203,4 @@ angular.module('payslipModule', ['ngRoute'])
 		});
 	};
 		
-})
-
-.directive('format', ['$filter', function ($filter) {
-    return {
-        require: '?ngModel',
-        link: function (scope, elem, attrs, ctrl) {
-            if (!ctrl) return;
-
-
-            ctrl.$formatters.unshift(function (a) {
-                return $filter(attrs.format)(ctrl.$modelValue)
-            });
-
-
-            ctrl.$parsers.unshift(function (viewValue) {
-                var plainNumber = viewValue.replace(/[^\d|\-+|\.+]/g, '');
-                elem.val($filter(attrs.format)(plainNumber));
-                return plainNumber;
-            });
-        }
-    };
-}]);
+});
