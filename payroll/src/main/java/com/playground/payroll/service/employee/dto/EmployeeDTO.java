@@ -3,12 +3,8 @@ package com.playground.payroll.service.employee.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
-
-import com.playground.payroll.service.payslip.dto.PayslipDTO;
 
 /**
  * DTO containing an employee.
@@ -29,17 +25,13 @@ public class EmployeeDTO implements Serializable {
 	private String lastName;
 	
 	@NotNull(message = "error.employee.annualsalary.notnull")
-	@DecimalMin("1.00")
 	private BigDecimal annualSalary;
 	
 	@NotNull(message = "error.employee.pensioncontribution.notnull")
-	@DecimalMin("1.00")
 	private BigDecimal pensionContribution;
 	
 	@NotNull(message = "error.employee.startdate.notnull")
 	private Date startDate;
-	
-	private List<PayslipDTO> payslips;
 	
 	public Long getId() {
 		return id;
@@ -76,11 +68,5 @@ public class EmployeeDTO implements Serializable {
 	}
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
-	}
-	public List<PayslipDTO> getPayslips() {
-		return payslips;
-	}
-	public void setPayslips(List<PayslipDTO> payslips) {
-		this.payslips = payslips;
 	}
 }

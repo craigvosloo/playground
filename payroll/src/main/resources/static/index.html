@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+<title>Payroll Application</title>
+<link href="css/payroll-assets.css" rel="stylesheet">
+<link href="css/animations.css" rel="stylesheet">
+<link href="css/app.css" rel="stylesheet">
+<style type="text/css">
+[ng\:cloak], [ng-cloak], .ng-cloak {
+	display: none !important;
+}
+</style>
+</head>
+
+<body ng-app="payroll" ng-controller="mainController" class="animation">
+	<div class="navbar navbar-default" role="navigation" ng-controller="navController">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/#/"><img src="images/myPayrollApplication.png" height="40"></a>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<toaster-container toaster-options="{'close-button': true}"></toaster-container>
+	</div>
+    <!--  ng-cloak class="ng-cloak" -->
+	<div class="container-fluid">
+		<div ng-view class="page {{ pageClass }}"></div>
+	</div>
+	
+	<script src="js/payroll-assets.js" type="text/javascript"></script>
+	<script src="js/services.js" type="text/javascript"></script>
+	
+	<!-- Services -->
+	<script src="js/service/employeeService.js" type="text/javascript"></script>
+	<script src="js/service/payslipService.js" type="text/javascript"></script>
+	<script src="js/service/notificationService.js" type="text/javascript"></script>
+	
+	<!-- Modules -->	
+	<script src="js/module/employee/employee.js" type="text/javascript"></script>	
+	<script src="js/module/payslip/payslip.js" type="text/javascript"></script>	
+	
+	<script src="js/app.js" type="text/javascript"></script>
+</body>
+</html>

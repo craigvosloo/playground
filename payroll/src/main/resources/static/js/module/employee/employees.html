@@ -1,0 +1,44 @@
+<div>
+	<div class="row">
+		<div class="container-fluid">
+			<h2 class="well-header">
+				Employees
+				<div class="pull-right">
+					<a type="new" class="btn btn-primary btn-sm" ng-click="newEmployee()" uib-tooltip="Create a new Employee" tooltip-trigger="mouseenter" href=""><i class="fa fa-plus"></i> New Employee</a>
+					<a type="refresh" class="btn btn-default btn-sm" ng-click="refreshEmployees()" uib-tooltip="Refresh the Employees" tooltip-trigger="mouseenter" href=""><i class="fa fa-refresh"></i> Refresh</a>
+				</div>				
+			</h2>
+			<hr />
+			<div class="row fadein fadeout">
+				<table ng-table="tableParams" class="table table-striped table-hover" ng-table-rowselected show-filter="true">
+				    <tr ng-repeat="employee in $data">	
+				    	<div class="row">			        
+					        <td class="col-sm-2" title="'First Name'" filter="{ 'firstName': 'text'}" sortable="'firstName'">
+					            <p ng-bind="employee.firstName"></p>
+					        </td>			        
+					        <td class="col-sm-2" title="'Last Name'" filter="{ 'lastName': 'text'}" sortable="'lastName'">
+					            <p ng-bind="employee.lastName"></p>
+					        </td>			        
+					        <td class="col-sm-2" title="'Annual Salary'" sortable="'annualSalary'">
+					            <p ng-bind="employee.annualSalary | currency:'R ' :0"></p>
+					        </td>			        
+					        <td class="col-sm-2" title="'Pension Contribution'" sortable="'pensionContribution'">
+					            <p ng-bind="employee.pensionContribution | percentage:100"></p>
+					        </td>		        
+					        <td class="col-sm-2" title="'Start Date'" sortable="'startDate'">
+					            <p ng-bind="employee.startDate"></p>
+					        </td>
+					        <td class="col-sm-2" title="'Actions'">
+					            <span class="page-button-group">			
+									<button class="btn btn-primary btn-xs" ng-click="viewPayslips(employee)" type="button" uib-tooltip="View Paylsips" tooltip-trigger="mouseenter">
+										<span class="fa fa-newspaper-o"></span>
+									</button>
+								</span>
+					        </td>
+					     </div>
+				    </tr>
+				</table>
+			</div>
+		</div>		
+	</div>
+</div>

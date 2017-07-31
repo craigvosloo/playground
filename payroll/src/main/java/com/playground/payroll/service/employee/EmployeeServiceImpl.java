@@ -57,6 +57,24 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		return employeeDTOList;
 	}
+
+	/**
+	 * Method to retrieve an employee
+	 * @param Long id the employee id
+	 * @return EmployeeDTO employeeDTO the employee
+	 * @see EmployeeDTO
+	 */
+	@Override
+	public EmployeeDTO findOne(Long id) {
+		Employee employee = employeeRepositiory.findOne(id);
+		
+		if (employee == null) {
+			String message = messageSource.getMessage("error.id.notfound", new Object[] { "Employee", id }, currentLocale);
+			throw new NotFoundException(message);
+		}
+		
+		return mapper.map(employee, EmployeeDTO.class);
+	}
 	
 	/**
 	 * Method to save an employee

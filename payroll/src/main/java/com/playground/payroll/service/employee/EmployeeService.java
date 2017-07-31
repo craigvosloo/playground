@@ -20,6 +20,9 @@ public interface EmployeeService {
 	/**@see EmployeeServiceImpl#findAll() */
 	public List<EmployeeDTO> findAll();
 	
+	/**@see EmployeeServiceImpl#findOne(Long) */
+	public EmployeeDTO findOne(Long id);
+	
 	/**@see EmployeeServiceImpl#saveEmployee(EmployeeDTO) */
 	public EmployeeDTO saveEmployee(EmployeeDTO employeeDTO);
 

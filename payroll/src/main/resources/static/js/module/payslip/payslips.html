@@ -1,0 +1,41 @@
+<div>
+	<div class="row">
+		<div class="container-fluid">
+			<h2 class="well-header">
+				Payslips
+				<div class="pull-right">
+					<a type="new" class="btn btn-primary btn-sm" ng-click="generatePayslip('lg')" uib-tooltip="Generate a new Payslip" tooltip-trigger="mouseenter" href=""><i class="fa fa-plus"></i> Generate Payslip</a>
+					<a type="refresh" class="btn btn-default btn-sm" ng-click="refreshPayslips()" uib-tooltip="Refresh the Payslips" tooltip-trigger="mouseenter" href=""><i class="fa fa-refresh"></i> Refresh</a>
+					<a type="close" class="btn btn-default btn-sm" ng-click="closePayslips()" uib-tooltip="Return to Employees" tooltip-trigger="mouseenter" href=""><i class="fa fa-close"></i> Close</a>
+				</div>				
+			</h2>
+			<hr />
+			<div class="row fadein fadeout">
+				<table ng-table="tableParams" class="table table-striped table-hover" ng-table-rowselected show-filter="true">
+				    <tr ng-repeat="payslip in $data">	
+				    	<div class="row">			        
+					        <td class="col-sm-2" title="'Payslip Date'" sortable="'payslipDate'">
+					            <p ng-bind="payslip.payslipDisplayDate"></p>
+					        </td>			        
+					        <td class="col-sm-2" title="'Gross Income'" sortable="'grossIncome'">
+					            <p ng-bind="payslip.grossIncome | currency:'R ' :0"></p>
+					        </td>			        
+					        <td class="col-sm-2" title="'Income Tax'" sortable="'incomeTax'">
+					            <p ng-bind="payslip.incomeTax | currency:'R ' :0"></p>
+					        </td>			        
+					        <td class="col-sm-2" title="'Net Income'" sortable="'netIncome'">
+					            <p ng-bind="payslip.netIncome | currency:'R ' :0"></p>
+					        </td>			        
+					        <td class="col-sm-2" title="'Pension Contribution'" sortable="'pensionContribution'">
+					            <p ng-bind="payslip.pensionContribution | currency:'R ' :0"></p>
+					        </td>			        
+					        <td class="col-sm-2" title="'Prorated'" sortable="'prorated'">
+					            <p ng-bind="payslip.prorated"></p>
+					        </td>
+					     </div>
+				    </tr>
+				</table>
+			</div>
+		</div>		
+	</div>
+</div>

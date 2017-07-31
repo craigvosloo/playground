@@ -18,7 +18,7 @@ public class PayslipDTO {
 	private BigDecimal netIncome;
 	private BigDecimal pensionContribution;
 	private Boolean prorated;
-	private Long employeeId;
+	private String payslipDisplayDate;
 
 	public Long getId() {
 		return id;
@@ -62,11 +62,10 @@ public class PayslipDTO {
 	public void setProrated(Boolean prorated) {
 		this.prorated = prorated;
 	}
-	public Long getEmployeeId() {
-		return employeeId;
+	public String getPayslipDisplayDate() {
+		return payslipDisplayDate;
 	}
-	public void setEmployeeId(Long employeeId) {
-		this.employeeId = employeeId;
+	public void setPayslipDisplayDate(String payslipDisplayDate) {
+		this.payslipDisplayDate = payslipDisplayDate;
 	}
-
 }

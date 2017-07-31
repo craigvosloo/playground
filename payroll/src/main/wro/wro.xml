@@ -1,0 +1,27 @@
+<groups xmlns="http://www.isdc.ro/wro">
+  <group name="payroll-assets">
+	<css>webjar:bootstrap/3.3.6/css/bootstrap.css</css>   
+	<css>webjar:bootstrap/3.3.6/css/bootstrap-theme.css</css>   
+    <css>file:${project.basedir}/src/main/wro/main.less</css>
+    <css>webjar:font-awesome/4.5.0/css/font-awesome.css</css>
+    <css>webjar:ng-table/0.3.3/ng-table.css</css>
+    <css>webjar:angular-loading-bar/0.8.0/loading-bar.min.css</css>
+    <css>webjar:/angularjs-toaster/0.4.8/toaster.css</css>
+    
+    <js>webjar:jquery/2.1.1/jquery.min.js</js>
+    <js>webjar:bootstrap/3.3.6/js/bootstrap.min.js</js>
+    <js>webjar:angularjs/1.3.8/angular.min.js</js>
+    <js>webjar:angularjs/1.3.8/angular-route.min.js</js>
+    <js>webjar:angularjs/1.3.8/angular-cookies.min.js</js>
+    <js>webjar:angularjs/1.3.8/angular-animate.min.js</js>
+    <js>webjar:angularjs/1.3.8/angular-sanitize.min.js</js>
+    <js>webjar:angularjs/1.3.8/angular-resource.min.js</js>
+    <js>webjar:angularjs/1.3.8/angular-touch.min.js</js> 
+    <js>webjar:ng-table/0.3.3/ng-table.min.js</js>
+    <js>webjar:angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js</js>
+    <js>webjar:angular-loading-bar/0.8.0/loading-bar.min.js</js> 
+    <js>webjar:/angularjs-toaster/0.4.8/toaster.js</js>   
+    <js>webjar:stomp-websocket/2.3.3/stomp.min.js</js>
+    <js>webjar:sockjs-client/1.0.2/sockjs.min.js</js>  
+   </group>
+</groups>

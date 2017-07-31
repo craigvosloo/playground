@@ -1,0 +1,71 @@
+<div>
+	<div class="row">
+		<div class="container-fluid">
+			<h2 class="well-header">
+				<span ng-show="employee && !employee.id">New Employee</span>			
+			</h2>
+			<hr />
+			<div class="row fadein fadeout" ng-show="employee">
+				<form name="employeeForm" class="form-horizontal" ng-submit="saveEmployee();" >
+					<div class="row">						
+						<div class="col-sm-6" ng-show="employee.id">
+							<div class="form-group">
+				            	<label for="id" class="col-sm-3 col-md-3 control-label">Id</label>
+				                <div class="col-sm-9 col-md-9">
+				                  <input type="text" readonly class="form-control input input-sm" id="id" required placeholder="Id" ng-model="employee.id"/>
+				                </div>
+				        	</div>
+			        	</div>
+			        	<div class="col-sm-6">
+			        		<div class="form-group">
+				            	<label for="firstName" class="col-sm-3 col-md-3 control-label">First Name</label>
+				                <div class="col-sm-9 col-md-9">
+				                  <input maxlength="250" type="text" class="form-control input input-sm" id="firstName" required placeholder="First Name" ng-model="employee.firstName"/>
+				                </div>
+				        	</div>
+			        	</div>	
+			        	<div class="col-sm-6">
+			        		<div class="form-group">
+				            	<label for="lastName" class="col-sm-3 col-md-3 control-label">Last Name</label>
+				                <div class="col-sm-9 col-md-9">
+				                  <input maxlength="250" type="text" class="form-control input input-sm" id="lastName" required placeholder="Last Name" ng-model="employee.lastName"/>
+				                </div>
+				            </div>
+			        	</div>
+			        	<div class="col-sm-6">
+			        		<div class="form-group">
+				            	<label for="annualSalary" class="col-sm-3 col-md-3 control-label">Annual Salary</label>
+				                <div class="col-sm-9 col-md-9">
+				                  <input type="number" min="1" class="form-control input input-sm" id="annualSalary" required placeholder="Annual Salary" ng-model="employee.annualSalary"/>
+				                </div>
+				            </div>
+			        	</div>
+			        	<div class="col-sm-6">
+			        		<div class="form-group">
+				            	<label for="pensionContribution" class="col-sm-3 col-md-3 control-label">Pension Contribution</label>
+				                <div class="col-sm-9 col-md-9">
+				                  <input type="number" min= "1" max="100" class="form-control input input-sm" id="pensionContribution" required placeholder="Pension Contribution" ng-model="employee.pensionContribution"/>
+				                </div>
+				            </div>
+			        	</div>	
+			        	<div class="col-sm-6">
+			        		<div class="form-group">
+				            	<label for="startDate" class="col-sm-3 col-md-3 control-label">Start Date</label>
+				                <div class="col-sm-9 col-md-9">
+				                  <input type="date" min="2016-03-01" max="2017-02-28" required class="form-control input input-sm" id="startDate" ng-model="employee.startDate"/>
+				                  <br/>
+				                </div>
+				            </div>
+			        	</div>			        		        
+					</div>	
+					<div class="row">
+						<div class="pull-right container-fluid page-button-group">					   
+						   <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+						   <a type="cancel" class="btn btn-default" href="" ng-click="back();"><i class="fa fa-times"></i> Close</a>
+						</div>	
+					</div>
+				</form>
+			</div>
+		</div>		
+	</div>
+</div>

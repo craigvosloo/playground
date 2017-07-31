@@ -1,23 +1,23 @@
 package com.playground.payroll.controller;
 
-import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.playground.payroll.service.employee.EmployeeService;
 import com.playground.payroll.service.payslip.PayslipService;
 import com.playground.payroll.service.payslip.dto.PayslipDTO;
+import com.playground.payroll.service.payslip.dto.PayslipPeriodDTO;
+import com.playground.payroll.service.payslip.dto.PayslipRequestDTO;
 
 /**
  * Rest controller for Payslip
@@ -33,38 +33,43 @@ public class PayslipController {
 	private PayslipService payslipService;
 	
 	 /**
-     * @see EmployeeService#findAll
+     * @see PayslipService#generatePayslip
      */
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
     public HttpEntity<PayslipDTO> generatePayslip(@Valid @RequestBody PayslipRequestDTO payslipRequest) {  
 	
-    	return new ResponseEntity<PayslipDTO>(payslipService.generatePayslip(payslipRequest.getEmployeeId(), payslipRequest.getPayslipDate()), HttpStatus.OK);    	
+    	return new ResponseEntity<PayslipDTO>(payslipService.generatePayslip(payslipRequest), HttpStatus.OK);    	
     	
     }
     
-    public static class PayslipRequestDTO implements Serializable {
-
-		private static final long serialVersionUID = 1L;
-
-		@NotNull
-    	private Long employeeId;
-    	@NotNull
-    	private Date payslipDate;
+	 /**
+     * @see PayslipService#savePayslip
+     */
+    @RequestMapping(value = "/employee/{employeeId}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+    public HttpEntity<PayslipDTO> savePayslip(@PathVariable Long employeeId, @RequestBody PayslipDTO payslipDTO) {  
+	
+    	return new ResponseEntity<PayslipDTO>(payslipService.savePayslip(employeeId, payslipDTO), HttpStatus.OK);    	
     	
-    	public PayslipRequestDTO() {}
-		
-    	public Long getEmployeeId() {
-			return employeeId;
-		}
-		public void setEmployeeId(Long employeeId) {
-			this.employeeId = employeeId;
-		}
-		public Date getPayslipDate() {
-			return payslipDate;
-		}
-		public void setPayslipDate(Date payslipDate) {
-			this.payslipDate = payslipDate;
-		}   	
     }
-
+    
+    /**
+     * @see PayslipService#getPayslipsByEmployee
+     */
+    @RequestMapping(value = "/employee/{employeeId}", method = RequestMethod.GET, produces = "application/json")
+    public HttpEntity<List<PayslipDTO>> getPayslipsByEmployee(@PathVariable Long employeeId) {  
+	
+    	return new ResponseEntity<List<PayslipDTO>>(payslipService.getPayslipsByEmployee(employeeId), HttpStatus.OK);    	
+    	
+    }
+    
+	 /**
+     * @see PayslipService#getPayslipPeriodsForEmployee
+     */
+    @RequestMapping(value = "/period/employee/{employeeId}", method = RequestMethod.GET, produces = "application/json")
+    public HttpEntity<List<PayslipPeriodDTO>> getPayslipPeriodsForEmployee(@PathVariable Long employeeId) {  
+	
+    	return new ResponseEntity<List<PayslipPeriodDTO>>(payslipService.getPayslipPeriodsForEmployee(employeeId), HttpStatus.OK);    	
+    	
+    }
+    
 }

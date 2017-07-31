@@ -1,0 +1,90 @@
+<div>
+	<div class="row">
+		<div class="container-fluid">
+			<h2 class="well-header">
+				Generate Payslip		
+			</h2>
+			<hr />
+			<div class="row fadein fadeout">
+				<form name="payslipForm" class="form-horizontal" ng-submit="savePayslip();" >
+					<div class="row">
+						<div class="col-sm-6 col-md-6">
+							<div class="form-group">
+					    		<label for="payslipPeriod" class="col-sm-6 col-md-6 control-label">Payslip Period</label>
+					        	<div class="col-sm-6 col-md-6">			      
+									<select name="payslipPeriod" id="payslipPeriod" class="form-control input input-sm" ng-required="true"
+				                              ng-options="payslipPeriod as payslipPeriod.displayValue for payslipPeriod in payslipPeriods | orderBy: 'payslipPeriodDate' track by payslipPeriod.payslipPeriodDate" ng-model="payslipPeriod">
+				  				    </select>  
+					        	</div>
+							</div>
+					    </div>	
+					</div>
+					<div class="container-fluid" ng-show="payslip">
+						<div class="col-sm-6" ng-show="payslip.id">
+							<div class="form-group">
+				            	<label for="id" class="col-sm-3 col-md-3 control-label">Id</label>
+				                <div class="col-sm-9 col-md-9">
+				                  <input type="number" readonly class="form-control input input-sm" id="id" placeholder="Id" ng-model="payslip.id"/>
+				                </div>
+				        	</div>
+			        	</div>
+			        	<div class="col-sm-6">
+							<div class="form-group">
+				            	<label for="id" class="col-sm-3 col-md-3 control-label">Payslip Date</label>
+				                <div class="col-sm-9 col-md-9">
+				                  <input type="text" readonly class="form-control input input-sm" id="id" ng-model="payslip.payslipDate"/>
+				                </div>
+				        	</div>
+			        	</div>
+			        	<div class="col-sm-6">
+							<div class="form-group">
+				            	<label for="id" class="col-sm-3 col-md-3 control-label">Gross Income</label>
+				                <div class="col-sm-9 col-md-9">
+				                  <input type="text" readonly class="form-control input input-sm" id="grossIncome" ng-model="payslip.grossIncome" format="number"/>
+				                </div>
+				        	</div>
+			        	</div>
+			        	<div class="col-sm-6">
+							<div class="form-group">
+				            	<label for="id" class="col-sm-3 col-md-3 control-label">Income Tax</label>
+				                <div class="col-sm-9 col-md-9">
+				                  <input type="text" readonly class="form-control input input-sm" id="incomeTax" ng-model="payslip.incomeTax" format="number"/>
+				                </div>
+				        	</div>
+			        	</div>
+			        	<div class="col-sm-6">
+							<div class="form-group">
+				            	<label for="id" class="col-sm-3 col-md-3 control-label">Net Income</label>
+				                <div class="col-sm-9 col-md-9">
+				                  <input type="text" readonly class="form-control input input-sm" id="netIncome" ng-model="payslip.netIncome" format="number"/>
+				                </div>
+				        	</div>
+			        	</div>
+			        	<div class="col-sm-6">
+							<div class="form-group">
+				            	<label for="id" class="col-sm-3 col-md-3 control-label">Pension Contribution</label>
+				                <div class="col-sm-9 col-md-9">
+				                  <input type="text" readonly class="form-control input input-sm" id="pensionContribution" ng-model="payslip.pensionContribution" format="number"/>
+				                </div>
+				        	</div>
+			        	</div>
+			        	<div class="col-sm-6">
+							<div class="form-group">
+				            	<label for="id" class="col-sm-3 col-md-3 control-label">Prorated</label>
+				                <div class="col-sm-9 col-md-9">
+				                  <input type="text" readonly class="form-control input input-sm" id="prorated" ng-model="payslip.prorated"/>
+				                </div>
+				        	</div>
+			        	</div>
+						<div class="row">
+							<div class="pull-right container-fluid page-button-group">					   
+							   <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+							   <a type="cancel" class="btn btn-default" href="" ng-click="back();"><i class="fa fa-times"></i> Close</a>
+							</div>	
+						</div>					
+					</div>
+				</form>
+			</div>
+		</div>		
+	</div>
+</div>
