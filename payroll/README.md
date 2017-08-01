@@ -1,7 +1,7 @@
 # My Payroll Application
 
 ## Assumption
-I assumed that if an employee starts half way throu a pay period and a payslip is generated for that period that the values should be prorated.
+I assumed that if an employee starts after the start of a pay period, and a payslip is generated for that period, that the values should be prorated.
 I did this based on the number of days that the employee worked divided by the number of days in a month and then multiplied all values by this factor.
 
 ## Solution
