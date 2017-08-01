@@ -29,8 +29,15 @@
 					        <td class="col-sm-2" title="'Pension Contribution'" sortable="'pensionContribution'">
 					            <p ng-bind="payslip.pensionContribution | currency:'R ' :0"></p>
 					        </td>			        
-					        <td class="col-sm-2" title="'Prorated'" sortable="'prorated'">
+					        <td class="col-sm-1" title="'Prorated'" sortable="'prorated'">
 					            <p ng-bind="payslip.prorated"></p>
+					        </td>			        
+					        <td class="col-sm-1" title="'Actions'" sortable="'prorated'">
+					            <span class="page-button-group">		
+									<button class="btn btn-primary btn-xs" ng-click="selectPayslip(payslip,employee.id)" type="button" uib-tooltip="View paylsip" tooltip-trigger="mouseenter">
+										<span class="fa fa-newspaper-o"></span>
+									</button>	
+								</span>
 					        </td>
 					     </div>
 				    </tr>

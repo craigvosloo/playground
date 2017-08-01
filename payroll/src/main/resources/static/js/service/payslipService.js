@@ -51,6 +51,22 @@ servicesModule.factory("payslipService", ['$http', '$q', '$timeout', function($h
 				});
 			};
 			
+			payslipService.getPayslip = function(payslipId) {
+
+				return $http.get(urlBase + "/" + payslipId).then(function(response) {
+					if (typeof response.data === 'object') {
+						
+						return response.data;
+					} else {
+						// invalid response
+						return $q.reject("Invalid response getting the payslip: " + payslipId);
+					}
+				}, function(response) {
+
+					return $q.reject("Failed response getting the payslip: " + payslipId);
+				});
+			};
+			
 			payslipService.getPayslipPeriodsForEmployee = function(employeeId) {
 
 				return $http.get(urlBase + "/period/employee/" + employeeId).then(function(response) {

@@ -12,6 +12,10 @@ angular.module('payslipModule', ['ngRoute'])
 		templateUrl : 'js/module/payslip/payslip.html',
 		controller : 'payslipController'
 	})
+	.when('/employee/:employeeId?/payslip/:payslipId?', {
+		templateUrl : 'js/module/payslip/payslip.html',
+		controller : 'payslipController'
+	})
 	.when('/', {
 		templateUrl : 'js/module/employee/employees.html',
 		controller : 'employeesController'
@@ -99,6 +103,10 @@ angular.module('payslipModule', ['ngRoute'])
 	$scope.generatePayslip = function() {
 		$location.path("/employee/" + $scope.employeeId + "/payslip/new");
 	};
+
+	$scope.selectPayslip = function(payslip,employeeId) {
+		$location.path("/employee/" + employeeId + "/payslip/" + payslip.id);
+	};
 	
 	$scope.syncPayslips = function(payslip) {
 		
@@ -127,6 +135,7 @@ angular.module('payslipModule', ['ngRoute'])
 
 	$scope.payslipPeriods;
 	$scope.employeeId = $routeParams.employeeId;
+	$scope.payslipId = $routeParams.payslipId;
 	$scope.payslip;
 	$scope.payslipPeriod;
 	$scope.employee;
@@ -158,9 +167,31 @@ angular.module('payslipModule', ['ngRoute'])
 			notificationService.showError(error);
 		});
 	}
+	
+	function getPayslip(id) {
+		payslipService.getPayslip(id).then(function(data) {
+			if (data != null) {
+				$scope.payslip = data;
+			} else {
+				$scope.payslip = null;
+				notificationService.showError('Payslip not found.');
+			}
+		}, function(error) {
+			$scope.payslip = null;
+			notificationService.showError(error);
+		});
+	}
 
-    getPayslipPeriods($scope.employeeId);
-    getEmployee($scope.employeeId);
+	
+	if ($scope.employeeId != null && $scope.payslipId == null) {
+    	getPayslipPeriods($scope.employeeId);
+    	getEmployee($scope.employeeId);
+    };
+	
+	if ($scope.payslipId != null) {
+		getEmployee($scope.employeeId);
+    	getPayslip($scope.payslipId);
+    };
     
 	function generatePayslip(payslipPeriod) {
 		

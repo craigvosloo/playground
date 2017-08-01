@@ -59,7 +59,7 @@ public class PayslipServiceImpl implements PayslipService {
 	 * Method to generate a payslip for an employee for a payment period
 	 * @param payslipRequestDTO the request DTO
 	 * @return PayslipDTO the generated payslip
-	 * @see EmployeeDTO
+	 * @see PayslipRequestDTO
 	 */
 	@Override
 	public PayslipDTO generatePayslip(PayslipRequestDTO payslipRequestDTO) {
@@ -102,7 +102,14 @@ public class PayslipServiceImpl implements PayslipService {
 		
 		return payslip;
 	}
-	
+
+	/**
+	 * Method to save a payslip for an employee
+	 * @param employeeId the Id of the employee to save the payslip for
+	 * @param payslip the payslip to save
+	 * @return PayslipDTO the saved payslip
+	 * @see PayslipDTO
+	 */
 	@Override
 	public PayslipDTO savePayslip(Long employeeId, PayslipDTO payslipDTO) {
 		Payslip payslip = mapper.map(payslipDTO, Payslip.class);
@@ -123,7 +130,7 @@ public class PayslipServiceImpl implements PayslipService {
 	 * Method to retrieve all payslips for an employee
 	 * @param Long employeeId the Id of the employee to retrieve the payslips for
 	 * @return List<PayslipDTO> the list of payslips
-	 * @see EmployeeDTO
+	 * @see PayslipDTO
 	 */
 	@Override
 	public List<PayslipDTO> getPayslipsByEmployee(Long employeeId) {
@@ -148,12 +155,30 @@ public class PayslipServiceImpl implements PayslipService {
 		
 		return payslipDTOList;
 	}
-
+	
 	/**
-	 * Method to retrieve all payslips for an employee
-	 * @param Long employeeId the Id of the employee to retrieve the payslips for
+	 * Method to retrieve a payslip
+	 * @param Long payslipId the Id of the employee to retrieve the payslips for
 	 * @return List<PayslipDTO> the list of payslips
 	 * @see EmployeeDTO
+	 */
+	@Override
+	public PayslipDTO findOne(Long payslipId) {
+		Payslip payslip = payslipRepository.findOne(payslipId);
+		if (payslip == null) {
+			String message = messageSource.getMessage("error.id.notfound", new Object[] { "Payslip", payslipId }, currentLocale);
+			throw new NotFoundException(message);
+		}
+		PayslipDTO payslipDTO = mapper.map(payslipRepository.save(payslip), PayslipDTO.class);
+		payslipDTO.setPayslipDate(payslip.getPayslipDate());
+		return payslipDTO;
+	}
+
+	/**
+	 * Method to retrieve all payslips periods for an employee
+	 * @param Long employeeId the Id of the employee to retrieve the payslips periods for
+	 * @return List<PayslipPeriodDTO> the list of payslip periods
+	 * @see PayslipPeriodDTO
 	 */
 	@Override
 	public List<PayslipPeriodDTO> getPayslipPeriodsForEmployee(Long employeeId) {

@@ -1,13 +1,17 @@
 <div>
 	<div class="row">
 		<div class="container-fluid">
-			<h2 class="well-header">
+			<h2 class="well-header" ng-show="!payslip.id">
 				Generate Payslip for {{employee.firstName}} {{employee.lastName}}
+			</h2>
+			<h2 class="well-header" ng-show="payslip.id">
+				View Payslip for {{employee.firstName}} {{employee.lastName}}
 			</h2>
 			<hr />
 			<div class="row fadein fadeout">
 				<form name="payslipForm" class="form-horizontal" ng-submit="savePayslip();" >
-					<div class="row">
+				<input type="hidden" name="employee.id" ng-value="employeeId" />
+					<div class="row" ng-show="!payslip.id">
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
 					    		<label for="payslipPeriod" class="col-sm-6 col-md-6 control-label">Payslip Period</label>
@@ -78,7 +82,7 @@
 			        	</div>
 						<div class="row">
 							<div class="pull-right container-fluid page-button-group">					   
-							   <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+							   <button type="submit" class="btn btn-primary" ng-show="!payslip.id"><i class="fa fa-save"></i> Save</button>
 							   <a type="cancel" class="btn btn-default" href="" ng-click="back();"><i class="fa fa-times"></i> Close</a>
 							</div>	
 						</div>					

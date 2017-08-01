@@ -42,6 +42,16 @@ public class PayslipController {
     	
     }
     
+    /**
+     * @see PayslipService#generatePayslip
+     */
+    @RequestMapping(value = "/{payslipId}", method = RequestMethod.GET, produces = "application/json")
+    public HttpEntity<PayslipDTO> findOne(@PathVariable Long payslipId) {  
+	
+    	return new ResponseEntity<PayslipDTO>(payslipService.findOne(payslipId), HttpStatus.OK);    	
+    	
+    }
+    
 	 /**
      * @see PayslipService#savePayslip
      */

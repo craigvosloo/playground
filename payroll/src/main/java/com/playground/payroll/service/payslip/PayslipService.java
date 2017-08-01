@@ -31,4 +31,7 @@ public interface PayslipService {
 	/**@see PayslipServiceImpl#getPayslipPeriodsForEmployee(Long) */
 	public List<PayslipPeriodDTO> getPayslipPeriodsForEmployee(Long employeeId);
 
+	/**@see PayslipServiceImpl#findOne(Long) */
+	public PayslipDTO findOne(Long payslipId);
+
 }

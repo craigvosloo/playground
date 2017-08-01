@@ -10,7 +10,8 @@ angular.module('payroll', ['ngAnimate',
                            'toaster',
                            'servicesModule',
                            'employeeModule',
-                           'payslipModule'])
+                           'payslipModule',
+                           'localDate'])
 
 .config(['$httpProvider', '$resourceProvider', '$routeProvider', function($httpProvider, $resourceProvider, $routeProvider) {
 	
