@@ -5,11 +5,11 @@
 
 	<groupId>com.playground</groupId>
 	<artifactId>payroll</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<name>payroll</name>
-	<description>Union Swiss Technical Exersize</description>
+	<description>Union Swiss Technical Exercise</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -47,12 +47,32 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
+			<exclusions>
+      			<exclusion> 
+        			<groupId>org.slf4j</groupId>
+        			<artifactId>slf4j-log4j12</artifactId>
+      			</exclusion>
+      			<exclusion> 
+        			<groupId>log4j</groupId>
+        			<artifactId>log4j</artifactId>
+      			</exclusion>
+    		</exclusions> 
 		</dependency>
 
 		<dependency>
 			<groupId>net.sf.dozer</groupId>
 			<artifactId>dozer</artifactId>
 			<version>5.4.0</version>
+			<exclusions>
+      			<exclusion> 
+        			<groupId>org.slf4j</groupId>
+        			<artifactId>slf4j-log4j12</artifactId>
+      			</exclusion>
+      			<exclusion> 
+        			<groupId>log4j</groupId>
+        			<artifactId>log4j</artifactId>
+      			</exclusion>
+    		</exclusions> 
 		</dependency>
 		
 		<dependency>
@@ -70,6 +90,16 @@
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
 			<version>2.8.9</version>
+			<exclusions>
+      			<exclusion> 
+        			<groupId>org.slf4j</groupId>
+        			<artifactId>slf4j-log4j12</artifactId>
+      			</exclusion>
+      			<exclusion> 
+        			<groupId>log4j</groupId>
+        			<artifactId>log4j</artifactId>
+      			</exclusion>
+    		</exclusions> 
 		</dependency>
 	</dependencies>
 
